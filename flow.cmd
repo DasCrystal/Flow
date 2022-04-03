@@ -101,16 +101,18 @@ if "%func%"=="c" (
 
 if "%errorlevel%"=="0" (
 
+    echo -^|%string.Execute% %Exec%^|-
+    
     if not "%flag.mstdin%"=="" (
 
-        echo -^|%string.Input%^|-
+        echo %string.Input%:
         type "%flag.mstdin%" & echo=
-        echo -^|%string.Execute% %Exec%^|-
+        echo --------
+        echo %string.OutPut%:
         %Exec% < "%flag.mstdin%"
 
     ) else (
 
-        echo -^|%string.Execute% %Exec%^|-
         %Exec%
 
     )

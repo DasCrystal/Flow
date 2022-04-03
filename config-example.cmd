@@ -1,7 +1,9 @@
 :nomal
 
-    ::支援的語言: zh, en
-    set lang=zh
+    ::中文=zh
+    ::English=en
+
+    set lang=en
 
 :efi
 

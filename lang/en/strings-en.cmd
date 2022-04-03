@@ -1,6 +1,7 @@
 
 set string.CantFound=Can't Found
 set string.Input=Input
+set string.OutPut=Output
 set string.Execute=Execute
 set string.ExecuteEnded=Execute Finished
 set string.InvaildLanguage=Specificed language invaild
