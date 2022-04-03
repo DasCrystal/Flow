@@ -54,11 +54,10 @@ cd /d %~dp2
 set func=%1
 set files=%2 %3 %4 %5 %6 %7 %8 %9
 
-::¼ÒªO
 ::if "%func%"=="c" (
 ::
-::    set Exec=%~n2.exe              #°õ¦æ«ü¥O
-::    set Comp=gcc -o !Exec! %files% #½sÄ¶«ü¥O
+::    set Exec=%~n2.exe              
+::    set Comp=gcc -o !Exec! %files%
 ::
 ::)
 
