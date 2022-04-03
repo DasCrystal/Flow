@@ -4,21 +4,23 @@
 setlocal enableextensions
 setlocal enabledelayedexpansion
 
-if exist config.cmd (
+if "%1"=="init" (goto init)
 
-    call config.cmd
+if exist %~dp0\config.cmd (
+
+    call %~dp0\config.cmd
 
 ) else (
 
-    echo [ERRO] Can't founmd config.cmd
+    echo [ERRO] Can't found config.cmd
     echo [FIX]  Copy and rename config-example.cmd to create a new one.
 
     goto:eof
 )
 
-if exist lang\%lang%\strings-%lang%.cmd (
+if exist %~dp0\lang\%lang%\strings-%lang%.cmd (
 
-    call lang\%lang%\strings-%lang%.cmd
+    call %~dp0\lang\%lang%\strings-%lang%.cmd
 
 ) else (
 
@@ -27,7 +29,7 @@ if exist lang\%lang%\strings-%lang%.cmd (
     goto:eof
 )
 
-if "%1"=="" (goto help)
+if "%1"==""     (goto help)
 if "%1"=="help" (goto help)
 
 :ReadArg
@@ -40,7 +42,7 @@ if "%2"=="-mstdin" (
 
     ) else (
 
-        echo %string.CantFound% %3¡C
+        echo %string.CantFound% %3
         goto:eof
 
     )
@@ -122,14 +124,15 @@ set ExecName=& set command=& set Exec=
 set flag.mstdin=
 set timeoout=0& goto:eof
 
+
 ::------
 :help
 
 echo=
 
-if exist lang\%lang%\readme-%lang%.txt (
+if exist %~dp0\lang\%lang%\readme-%lang%.txt (
 
-    lang\%lang%\readme-%lang%.txt
+    type %~dp0\lang\%lang%\readme-%lang%.txt
 
 ) else (
 
@@ -141,3 +144,58 @@ echo=
 echo=
 
 goto:eof
+
+
+:init
+
+:InitStep0
+
+choice /c CE /m "Choose Init Display Language:[Chinese/English]" /n
+
+if "%errorlevel%"=="1" (
+
+    set lang=zh
+
+) else (
+
+    set lang=en
+
+)
+
+if exist %~dp0\lang\%lang%\strings-%lang%.cmd (
+
+    call %~dp0\lang\%lang%\strings-%lang%.cmd
+
+) else (
+
+    echo [ERRO] Cant' found lang\%lang%\strings-%lang%.cmd
+    echo [Fix]  Perhaps you need redownload the source code. 
+    goto:eof
+)
+
+
+:InitStep1
+title %title.Step1%
+echo=
+choice /m "%string.Step1%"
+if "%errorlevel%"=="1" (
+
+    setx Path "%path%;%~dp0"
+
+)
+
+:InitStep2
+title %title.Step2%
+echo=
+echo %string.Step2.1%
+set editor=notepad
+set /p editor=%String.Step2.2%
+echo %string.Step2.3%
+copy %~dp0\config-example.cmd %~dp0\config.cmd
+%editor% config.cmd
+
+:InitStep3
+title %title.Step3%
+echo=
+echo %string.StepFinish.1%
+echo %string.StepFinish.2%
